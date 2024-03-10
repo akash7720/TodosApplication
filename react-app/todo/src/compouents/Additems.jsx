@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast'
+import'./Todo.css'
 import React, { useState } from 'react'
 
 const Additems = () => {
@@ -14,26 +16,34 @@ const Additems = () => {
            return([...OldUserData,Items])
            
         });
-        //   setItems("");
+        
     }; 
 
   return (
-    <div>
-        <h1>Additems</h1>
-        <input type="text" placeholder="AddTodo" onChange={AddTodos}/>
+    <div className='color1'>
+               <div className='color2'>
+        <h1>Add TO Do</h1>
+        <input type="text" placeholder="AddTodo" className='w-h' onChange={AddTodos}/>
         <button onClick={ShowData}>+</button>
-
-        <ol>
-            {/* <li>{Items} </li> */}
-
-            { userData.map((Itemlist)=>{
-                    return <li>{Itemlist} </li>
-                })
-            }
+      <div >
+      { userData.map((Itemlist)=>{
+           
+                return <li>{Itemlist} </li> 
                 
-        </ol>
-     </div>
+            
+                })
+                
+                
+            }
+            
+      </div>
+    </div>
+    </div>
   )
 }
 
 export default Additems;
+
+
+
+
