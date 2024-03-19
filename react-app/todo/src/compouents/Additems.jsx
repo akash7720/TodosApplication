@@ -1,49 +1,53 @@
-import toast from 'react-hot-toast'
-import'./Todo.css'
-import React, { useState } from 'react'
+
+
+import "./Todo.css"
+import React, { useState } from 'react';
 
 const Additems = () => {
-    const[Items,setItems] =useState("")
-    const [userData , setUserData]=useState([])
+  const [Items, setItems] = useState("");
+  const [userData, setUserData] = useState([]);
 
+  function SubmitHandel(e){
+    e.preventDefault();
+    setUserData([...userData, Items]);
+    console.log(userData, "userData");
+    setItems("");
+  };
 
-    function AddTodos(event){
-        setItems(event.target.value)
+  function handleDelete(index) {
+    if (window.confirm("Are you sure to delete this item?")) {
+      const copyTask = [...userData];
+      copyTask.splice(index, 1);
+      setUserData(copyTask);
     }
+  }
 
-    function ShowData(){
-        setUserData((OldUserData)=>{
-           return([...OldUserData,Items])
-           
-        });
-        
-    }; 
+//  function handleAllDelete(){
+   
+//  }
+  
+
 
   return (
-    <div className='color1'>
-               <div className='color2'>
-        <h1>Add TO Do</h1>
-        <input type="text" placeholder="AddTodo" className='w-h' onChange={AddTodos}/>
-        <button onClick={ShowData}>+</button>
-      <div >
-      { userData.map((Itemlist)=>{
-           
-                return <li>{Itemlist} </li> 
-                
-            
-                })
-                
-                
-            }
-            
+    <div className="div-1" >
+      <div className="text-1">Add_items</div>
+      <form onSubmit={SubmitHandel}>
+        <input type="text" placeholder="Your Tasks" className="color-1" value={Items} onChange={(e) => setItems(e.target.value)} />
+        <button className="but-1" >Add Todo</button>
+      </form>
+
+      <div className="div-2">
+        
+        { userData.map((std, index) => (
+          <li key={index}>{std}  
+          <button className="but-2" onClick={(()=>{handleDelete(index)})}>Delete</button>
+          </li>
+        ))}
+          {/* <button onClick={handleAllDelete}>All Delete</button> */}
+       
       </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
 export default Additems;
-
-
-
-

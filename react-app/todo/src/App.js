@@ -5,13 +5,11 @@ import Additems from './compouents/Additems';
 
 
 
-
-
 function App() {
   return (
     <div className="App">
       <Routes>
-      <Route path='/Additems' element={<Additems/>} />
+      <Route path='/' element={<Additems/>} />
       </Routes>
     </div>
   );
