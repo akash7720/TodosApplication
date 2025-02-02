@@ -115,65 +115,283 @@
 
 
 
-import React, { useState } from 'react'
+// import React, { useEffect, useState } from 'react'
 
-const Additems = () => {
+// const Additems = () => {
 
-  const [todo, settodo]=useState("");
+//   const [todo, settodo]=useState("");
 
-  const [AllTodo, setAllTodo]=useState([])
+//   const [AllTodo, setAllTodo]=useState([])
 
-  console.log(todo ,"todo" , AllTodo,"AllTodo");
+//   console.log( AllTodo,"AllTodo");
 
-  function HandleChange(event){
-      settodo([event.target.value])
-  }
+//   function HandleChange(event){
+//       settodo([event.target.value])
+//   }
 
-  function HandleSubmit(){
-    setAllTodo([...AllTodo,todo])
-    settodo([])
-  }
+//   function HandleSubmit(){
+//     setAllTodo([...AllTodo,todo])
+//     settodo([])
+//   }
 
-  function HandleDelete(i){
-     const deleteTodo =[...AllTodo];
-     deleteTodo.splice(i,1);
-     setAllTodo(deleteTodo);
+//   function HandleDelete(i){
+//      const deleteTodo =[...AllTodo];
+//      deleteTodo.splice(i,1);
+//      setAllTodo(deleteTodo);
 
-    }
+//     }
 
-    function handleAllDelete(){
-      setAllTodo([])
-    }
+//     function handleAllDelete(){
+//       setAllTodo([])
+//     }
+
+
+    
+
+
 
   
+//   return (
+//     <div>
+//       <h1>Todo</h1>
+//       <input value={todo} onChange={HandleChange} type='text' placeholder='Add your Task'/>
+//       <button onClick={HandleSubmit}>Submit</button>
+
+//       <div>
+//           {setAllTodo.length? 
+          
+//           <div>
+             
+//               {AllTodo.map ((AllTodo,i)=>(
+//                 <p key={i}>
+//                   {i + 1}.{AllTodo}
+//                 <button onClick={HandleDelete}>Delete</button>
+              
+//                 </p>
+//               ))}
+             
+//           </div>
+         
+//            :
+//            <h3>Todo not found</h3>}
+
+//            {AllTodo.length? <div> <button onClick={handleAllDelete}>Delete All</button></div> :<p>Add Todo</p>}
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default Additems
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react'
+
+const Additems = () => {
+  const [todo, settodo] = useState("");
+  const [AllTodo, setAllTodo] = useState([]);
+
+  // useEffect(() => {
+  //   // Retrieve todos from localStorage when the component mounts
+  //   const savedTodos = JSON.parse(localStorage.getItem('todos'));
+  //   if (savedTodos) {
+  //     setAllTodo(savedTodos);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    // Save todos to localStorage whenever they are updated
+    localStorage.setItem('todos', JSON.stringify(AllTodo));
+  }, [AllTodo]);
+
+
+  console.log(AllTodo, "AllTodo");
+
+  function HandleChange(event) {
+    settodo(event.target.value);
+  }
+
+  function HandleSubmit() {
+    setAllTodo([...AllTodo, todo]);
+    settodo("");
+  }
+
+  function HandleDelete(i) {
+    const deleteTodo = [...AllTodo];
+    deleteTodo.splice(i, 1);
+    setAllTodo(deleteTodo);
+  }
+
+  function handleAllDelete() {
+    setAllTodo([]);
+  }
+
   return (
     <div>
       <h1>Todo</h1>
-      <input value={todo} onChange={HandleChange} type='text' placeholder='Add your Task'/>
+      <input value={todo} onChange={HandleChange} type='text' placeholder='Add your Task' />
       <button onClick={HandleSubmit}>Submit</button>
 
       <div>
-          {setAllTodo.length? 
-          
+        {AllTodo.length ? (
           <div>
-             
-              {AllTodo.map ((AllTodo,i)=>(
-                <p key={i}>
-                  {i + 1}.{AllTodo}
-                <button onClick={HandleDelete}>Delete</button>
-              
-                </p>
-              ))}
-             
+            {AllTodo.map((todo, i) => (
+              <p key={i}>
+                {i + 1}.{todo}
+                <button onClick={() => HandleDelete(i)}>Delete</button>
+              </p>
+            ))}
           </div>
-         
-           :
-           <h3>Todo not found</h3>}
+        ) : (
+          <h3>Todo not found</h3>
+        )}
 
-           {AllTodo.length? <div> <button onClick={handleAllDelete}>Delete All</button></div> :<p>Add Todo</p>}
+        {AllTodo.length ? (
+          <div><button onClick={handleAllDelete}>Delete All</button></div>
+        ) : (
+          <p>Add Todo</p>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Additems
+export default Additems;
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+
+// const AddItems = () => {
+//   const [todo, setTodo] = useState("");
+//   const [dateTime, setDateTime] = useState("");
+//   const [allTodo, setAllTodo] = useState([]);
+
+//   // Load saved todos from localStorage when the component mounts
+//   useEffect(() => {
+//     const savedTodos = JSON.parse(localStorage.getItem('todos'));
+//     if (savedTodos) {
+//       setAllTodo(savedTodos.map(todo => ({
+//         ...todo,
+//         startTime: new Date(todo.startTime) // Convert back to Date object
+//       })));
+//     }
+//   }, []);
+
+//   // Save todos to localStorage whenever they are updated
+//   useEffect(() => {
+//     localStorage.setItem('todos', JSON.stringify(allTodo));
+//   }, [allTodo]);
+
+//   function handleChange(event) {
+//     setTodo(event.target.value);
+//   }
+
+//   function handleDateTimeChange(event) {
+//     setDateTime(event.target.value);
+//   }
+
+//   function handleSubmit() {
+//     const newTodo = { text: todo, dateTime: new Date(dateTime), startTime: new Date(), running: true };
+//     setAllTodo([...allTodo, newTodo]);
+//     setTodo("");
+//     setDateTime("");
+//   }
+
+//   function handleDelete(index) {
+//     const updatedTodos = allTodo.filter((_, i) => i !== index);
+//     setAllTodo(updatedTodos);
+//   }
+
+//   function handleAllDelete() {
+//     setAllTodo([]);
+//   }
+
+//   function toggleTimer(index) {
+//     setAllTodo(allTodo.map((todo, i) => {
+//       if (i === index) {
+//         if (todo.running) {
+//           // Pause timer
+//           return { ...todo, running: false, elapsed: Date.now() - todo.startTime.getTime() };
+//         } else {
+//           // Resume timer
+//           return { ...todo, running: true, startTime: new Date(Date.now() - todo.elapsed) };
+//         }
+//       }
+//       return todo;
+//     }));
+//   }
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setAllTodo(todos => todos.map(todo => {
+//         if (todo.running) {
+//           return { ...todo, elapsed: Date.now() - todo.startTime.getTime() };
+//         }
+//         return todo;
+//       }));
+//     }, 1000);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   function formatTime(duration) {
+//     const seconds = Math.floor((duration / 1000) % 60);
+//     const minutes = Math.floor((duration / (1000 * 60)) % 60);
+
+//     return `${minutes}m ${seconds}s`;
+  
+//   }
+
+//   function formatDateTime(date) {
+//     return date.toLocaleString();
+//   }
+
+//   return (
+//     <div>
+//       <h1>Todo</h1>
+//       <input value={todo} onChange={handleChange} type='text' placeholder='Add your Task'/>
+//       <input type='datetime-local' value={dateTime} onChange={handleDateTimeChange}/>
+//       <button onClick={handleSubmit}>Submit</button>
+
+//       <div>
+//         {allTodo.length ? (
+//           <div>
+//             {allTodo.map((todo, i) => (
+//               <div key={i}>
+//                 <p>
+//                   {i + 1}. {todo.text} - {formatDateTime(todo.dateTime)} - {formatTime(todo.elapsed || 0)}
+//                   <button onClick={() => handleDelete(i)}>Delete</button>
+//                   <button onClick={() => toggleTimer(i)}>
+//                     {todo.running ? 'Pause' : 'Resume'}
+//                   </button>
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+//         ) : (
+//           <h3>Todo not found</h3>
+//         )}
+
+//         {allTodo.length ? (
+//           <div><button onClick={handleAllDelete}>Delete All</button></div>
+//         ) : (
+//           <p>Add Todo</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default AddItems;
